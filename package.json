@@ -1,6 +1,6 @@
 {
 	"name": "symbols",
-	"displayName": "Symbols",
+	"displayName": "Symbols [Secured]",
 	"description": "A simple file icon theme for VS Code",
 	"version": "0.0.25",
 	"publisher": "miguelsolorio",
@@ -62,7 +62,7 @@
 		],
 		"configuration": {
 			"type": "object",
-			"title": "Symbols",
+			"title": "Symbols [Secured]",
 			"properties": {
 				"symbols.hidesExplorerArrows": {
 					"type": "boolean",
