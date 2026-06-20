@@ -7,7 +7,7 @@ import { initializeThemeRuntimeRoot, syncOriginal } from "./lib/theme.js";
  */
 export async function activate(context) {
 	initializeThemeRuntimeRoot(context.extensionPath);
-	log.info("miguelsolorio.symbols activated");
+	log.info("CyberT33N.symbols activated");
 	await syncOriginal();
 	monitorConfigChanges();
 

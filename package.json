@@ -1,9 +1,9 @@
 {
-	"name": "symbols",
+	"name": "symbols-secured",
 	"displayName": "Symbols [Secured]",
 	"description": "A simple file icon theme for VS Code",
-	"version": "0.0.25",
-	"publisher": "miguelsolorio",
+	"version": "0.0.26",
+	"publisher": "CyberT33N",
 	"icon": "symbols.png",
 	"preview": true,
 	"packageManager": "pnpm@11.6.0",
@@ -34,10 +34,10 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/miguelsolorio/vscode-symbols.git"
+		"url": "https://github.com/CyberT33N/vscode-symbols.git"
 	},
 	"bugs": {
-		"url": "https://github.com/miguelsolorio/vscode-symbols/issues"
+		"url": "https://github.com/CyberT33N/vscode-symbols/issues"
 	},
 	"author": {
 		"name": "Miguel Solorio"
@@ -54,8 +54,8 @@
 	"contributes": {
 		"iconThemes": [
 			{
-				"id": "symbols",
-				"label": "Symbol Icons",
+				"id": "symbols-secured",
+				"label": "Symbols [Secured]",
 				"path": "./dist/symbol-icon-theme.modified.json",
 				"_watch": true
 			}
