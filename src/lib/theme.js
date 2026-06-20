@@ -1,49 +1,47 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const { PKG_PROP_MAP } = require("./constants");
-const { confirmReload } = require("./window");
-const { log } = require("./log");
+import fs from "node:fs";
+import path from "node:path";
+import { PKG_PROP_MAP } from "./constants.js";
+import { log } from "./log.js";
+import { confirmReload } from "./window.js";
 
 const THEME_FILE = "symbol-icon-theme.modified.json";
 const BACKUP_THEME_FILE = "symbol-icon-theme.bkp.json";
 const DEFAULT_THEME_FILE = "symbol-icon-theme.json";
+const THEME_DIRECTORY = "dist";
+let extensionRuntimeRoot = null;
 
-// getPath and getDefaultPath are seperated in
-// case we decide to change the path at which the
-// modified theme is kept
+export function initializeThemeRuntimeRoot(extensionPath) {
+	extensionRuntimeRoot = extensionPath;
+}
+
+function getThemeDirectory() {
+	if (!extensionRuntimeRoot) {
+		throw new Error("Theme runtime root has not been initialized.");
+	}
+
+	return path.join(extensionRuntimeRoot, THEME_DIRECTORY);
+}
 
 /**
  * @description get the path for the theme definition
  * (or the theme file that vscode looks for)
  */
 function getPath() {
-	if (__dirname === "src") {
-		return path.join(__dirname, THEME_FILE);
-	}
-	// relative to the current file aka theme.js
-	return path.join(__dirname, "..", THEME_FILE);
+	return path.join(getThemeDirectory(), THEME_FILE);
 }
 
 /**
  * @description get the path for the default theme file (or the source code theme)
  */
 function getDefaultFilePath() {
-	if (__dirname === "src") {
-		return path.join(__dirname, DEFAULT_THEME_FILE);
-	}
-	// relative to the current file aka theme.js
-	return path.join(__dirname, "..", DEFAULT_THEME_FILE);
+	return path.join(getThemeDirectory(), DEFAULT_THEME_FILE);
 }
 
 /**
  * @description get the path for the backup theme file (or the source code theme)
  */
 function getBackupFilePath() {
-	if (__dirname === "src") {
-		return path.join(__dirname, BACKUP_THEME_FILE);
-	}
-	// relative to the current file aka theme.js
-	return path.join(__dirname, "..", BACKUP_THEME_FILE);
+	return path.join(getThemeDirectory(), BACKUP_THEME_FILE);
 }
 
 /**
@@ -74,14 +72,14 @@ function resolveOrCreateBackupTheme() {
  * @description get the theme json, either from the modified one
  * or the default one
  */
-function getThemeFile() {
+export function getThemeFile() {
 	return JSON.parse(fs.readFileSync(resolveOrCreateTheme(), "utf-8"));
 }
 
 /**
  * @description get the source theme json
  */
-function getSoureFile() {
+export function getSoureFile() {
 	return JSON.parse(fs.readFileSync(getDefaultFilePath(), "utf-8"));
 }
 
@@ -94,7 +92,7 @@ function getBackupFile() {
 
 // write the theme data file to the **modified** theme
 // file
-function writeThemeFile(data) {
+export function writeThemeFile(data) {
 	fs.writeFileSync(getPath(), JSON.stringify(data, null, 2));
 }
 
@@ -106,7 +104,7 @@ function writeThemeFile(data) {
  * resolveOrCreateTheme if we wish to move this into a deeper diffing based
  * sync later (unnecessary right now since the themeFile is small)
  */
-async function syncOriginal() {
+export async function syncOriginal() {
 	const themePath = getPath();
 	const backupJSON = getBackupFile();
 	const originalJSON = getSoureFile();
@@ -145,10 +143,3 @@ async function syncOriginal() {
 		fs.copyFileSync(getDefaultFilePath(), getBackupFilePath());
 	}
 }
-
-module.exports = {
-	getThemeFile,
-	getSoureFile,
-	writeThemeFile,
-	syncOriginal,
-};

@@ -6,9 +6,17 @@
 	"publisher": "miguelsolorio",
 	"icon": "symbols.png",
 	"preview": true,
-	"main": "./src/extension.js",
+	"packageManager": "pnpm@11.6.0",
+	"main": "./dist/extension.cjs",
 	"engines": {
 		"vscode": "^1.88.0"
+	},
+	"devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"version": "11.6.0",
+			"onFail": "error"
+		}
 	},
 	"categories": [
 		"Themes"
@@ -48,7 +56,7 @@
 			{
 				"id": "symbols",
 				"label": "Symbol Icons",
-				"path": "./src/symbol-icon-theme.modified.json",
+				"path": "./dist/symbol-icon-theme.modified.json",
 				"_watch": true
 			}
 		],
@@ -94,27 +102,31 @@
 			}
 		}
 	},
-	"type": "commonjs",
+	"type": "module",
 	"scripts": {
 		"format": "biome format --write .",
 		"lint": "biome lint .",
 		"lint:fix": "biome lint --write .",
 		"check-format": "biome check .",
 		"check-format:fix": "biome check --write .",
+		"bundle": "node ./esbuild.js",
+		"bundle:prod": "node ./esbuild.js --production",
+		"watch:bundle": "node ./esbuild.js --watch",
 		"integrity": "node --experimental-json-modules scripts/integrity.mjs",
-		"package": "vsce package",
-		"vscode:prepublish": "npm run check-format && npm run lint",
-		"precommit": "npm run check-format:fix && npm run lint:fix && npm run integrity && npm run generate-previews",
+		"package": "biome check . && biome lint . && node ./esbuild.js --production && node ./scripts/package-vsix.cjs",
+		"precommit": "biome check --write . && biome lint --write . && node --experimental-json-modules scripts/integrity.mjs && node --experimental-json-modules scripts/generate-previews.mjs && node --experimental-json-modules scripts/generate-markdown.mjs",
 		"prepare": "husky",
-		"build": "npm run generate-previews",
+		"build": "node ./esbuild.js",
 		"generate-previews": "node --experimental-json-modules scripts/generate-previews.mjs && node --experimental-json-modules scripts/generate-markdown.mjs"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.3.3",
-		"@types/vscode": "^1.88.0",
-		"@vscode/vsce": "^3.2.1",
-		"markdown-table": "^3.0.4",
-		"sharp": "^0.34.4",
-		"husky": "^9.0.0"
+		"@biomejs/biome": "catalog:",
+		"@types/vscode": "catalog:",
+		"@vscode/vsce": "catalog:",
+		"esbuild": "catalog:",
+		"husky": "catalog:",
+		"markdown-table": "catalog:",
+		"sharp": "catalog:",
+		"yaml": "catalog:"
 	}
 }

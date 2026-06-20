@@ -1,11 +1,12 @@
-const vscode = require("vscode");
-const { monitorConfigChanges } = require("./lib/change-listener");
-const { syncOriginal } = require("./lib/theme");
-const { log } = require("./lib/log");
+import * as vscode from "vscode";
+import { monitorConfigChanges } from "./lib/change-listener.js";
+import { log } from "./lib/log.js";
+import { initializeThemeRuntimeRoot, syncOriginal } from "./lib/theme.js";
 /**
  * @param {vscode.ExtensionContext} context
  */
-async function activate(_context) {
+export async function activate(context) {
+	initializeThemeRuntimeRoot(context.extensionPath);
 	log.info("miguelsolorio.symbols activated");
 	await syncOriginal();
 	monitorConfigChanges();
@@ -13,10 +14,4 @@ async function activate(_context) {
 	vscode.workspace.onDidChangeConfiguration(monitorConfigChanges);
 }
 
-function deactivate() {}
-
-// eslint-disable-next-line no-undef
-module.exports = {
-	activate,
-	deactivate,
-};
+export function deactivate() {}

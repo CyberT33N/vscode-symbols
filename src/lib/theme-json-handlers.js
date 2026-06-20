@@ -1,4 +1,4 @@
-const updateThemeJSONHandlers = {
+export const updateThemeJSONHandlers = {
 	hidesExplorerArrows: (themeJSON, value) => {
 		themeJSON.hidesExplorerArrows = value;
 	},
@@ -43,8 +43,4 @@ const updateThemeJSONHandlers = {
 			}
 		}
 	},
-};
-
-module.exports = {
-	updateThemeJSONHandlers,
 };

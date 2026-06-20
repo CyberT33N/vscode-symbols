@@ -5,14 +5,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run lint              # Lint with Biome
-npm run lint:fix          # Auto-fix lint issues
-npm run check-format      # Check formatting with Biome
-npm run check-format:fix  # Auto-fix formatting
-npm run integrity         # Validate all iconDefinitions reference existing SVG files
-npm run generate-previews # Regenerate preview images and markdown from icon set
-npm run build             # Alias for generate-previews
-npm run package           # Package the extension as .vsix
+pnpm run lint              # Lint with Biome
+pnpm run lint:fix          # Auto-fix lint issues
+pnpm run check-format      # Check formatting with Biome
+pnpm run check-format:fix  # Auto-fix formatting
+pnpm run integrity         # Validate all iconDefinitions reference existing SVG files
+pnpm run generate-previews # Regenerate preview images and markdown from icon set
+pnpm run build             # Bundle the extension into dist/
+pnpm run package           # Build and package the extension as .vsix
 ```
 
 **Pre-commit hook** runs automatically: `check-format:fix`, `lint:fix`, `integrity`, and `generate-previews`.
@@ -24,19 +24,19 @@ npm run package           # Package the extension as .vsix
 This is a VS Code file icon theme extension. The core data flow is:
 
 1. **`src/symbol-icon-theme.json`** — the source of truth. Defines all `iconDefinitions` (mapping icon names to SVG paths) and all associations (`fileExtensions`, `fileNames`, `folderNames`, etc.).
-2. **`src/symbol-icon-theme.modified.json`** — the file VS Code actually reads (referenced in `package.json` `contributes.iconThemes`). At runtime, `src/extension.js` calls `syncOriginal()` which copies and merges the source theme into this file, applying user configuration overrides (custom associations, arrow visibility, etc.).
-3. **`src/symbol-icon-theme.bkp.json`** — backup of the last-known-good theme, used for rollback.
+2. **`dist/symbol-icon-theme.modified.json`** — the file VS Code actually reads (referenced in `package.json` `contributes.iconThemes`). The bundle/build flow materializes it into `dist/`, and at runtime `src/extension.js` calls `syncOriginal()` which keeps it aligned with the default theme while applying user configuration overrides.
+3. **`dist/symbol-icon-theme.bkp.json`** — backup of the last-known-good theme, used for rollback.
 4. **`src/lib/theme.js`** — handles reading/writing the theme files and merging user config into the modified theme.
 5. **`src/lib/change-listener.js`** — watches for VS Code configuration changes and triggers re-sync via `theme.js`.
-6. **`src/icons/files/`** and **`src/icons/folders/`** — SVG icon assets (24×24px, 1px stroke, no fill, kebab-case names, under 2KB).
+6. **`dist/icons/`** — built runtime icon assets copied from `src/icons/**` for packaging and local extension-host execution.
 
 ### Adding a New Icon
 
 1. Add SVG to `src/icons/files/your-icon.svg` (or `src/icons/folders/folder-your-icon.svg`)
 2. Add an entry to `iconDefinitions` in `src/symbol-icon-theme.json`
 3. Add file extension or filename associations in the same JSON
-4. Run `npm run generate-previews` to update `preview/preview.md`
-5. Run `npm run integrity` to verify no broken references
+4. Run `pnpm run generate-previews` to update `preview/preview.md`
+5. Run `pnpm run integrity` to verify no broken references
 
 ### Icon Design Constraints
 

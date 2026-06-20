@@ -1,10 +1,10 @@
-const vscode = require("vscode");
-const { log } = require("./log");
-const defaultConfig = require("../symbol-icon-theme.json");
-const pkgConfig = require("../../package.json");
-const { getSoureFile, writeThemeFile } = require("./theme");
-const { PKG_PROP_MAP } = require("./constants");
-const { updateThemeJSONHandlers } = require("./theme-json-handlers");
+import * as vscode from "vscode";
+import pkgConfig from "../../package.json";
+import defaultConfig from "../symbol-icon-theme.json";
+import { PKG_PROP_MAP } from "./constants.js";
+import { log } from "./log.js";
+import { getSoureFile, writeThemeFile } from "./theme.js";
+import { updateThemeJSONHandlers } from "./theme-json-handlers.js";
 
 // get the configuration definition from the package.json
 // and also the default state of the theme to act as fallback
@@ -16,7 +16,7 @@ const defaultState = themeJSONToConfig(defaultConfig);
 /**
  * @description will get the current **workspace** configuration
  */
-function getWorkspaceConfiguration() {
+export function getWorkspaceConfiguration() {
 	const config = {};
 	for (const key of configKeys) {
 		if (!PKG_PROP_MAP[key]) {
@@ -35,7 +35,7 @@ function getWorkspaceConfiguration() {
  * @description normalize a theme definition json to only have
  * keys that are defined in the configuration section of the package.json
  */
-function themeJSONToConfig(themeDef) {
+export function themeJSONToConfig(themeDef) {
 	const result = {};
 
 	for (const key of configKeys) {
@@ -52,7 +52,7 @@ function themeJSONToConfig(themeDef) {
  * @description update the changed property in the global settings and
  * in the theme definition file
  */
-function updateConfig(config) {
+export function updateConfig(config) {
 	const themeJSON = getSoureFile();
 
 	const useDefaultAssociations = vscode.workspace.getConfiguration("symbols").get("defaultAssociations", true);
@@ -74,9 +74,3 @@ function updateConfig(config) {
 
 	writeThemeFile(themeJSON);
 }
-
-module.exports = {
-	getWorkspaceConfiguration,
-	themeJSONToConfig,
-	updateConfig,
-};

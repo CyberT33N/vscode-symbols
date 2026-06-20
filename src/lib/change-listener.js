@@ -1,7 +1,7 @@
-const { themeJSONToConfig, getWorkspaceConfiguration, updateConfig } = require("./config");
-const { getThemeFile } = require("./theme");
+import { getWorkspaceConfiguration, themeJSONToConfig, updateConfig } from "./config.js";
+import { getThemeFile } from "./theme.js";
 
-function monitorConfigChanges() {
+export function monitorConfigChanges() {
 	const themeJSON = getThemeFile();
 	const currentState = themeJSONToConfig(themeJSON);
 	const workspaceState = getWorkspaceConfiguration();
@@ -14,7 +14,3 @@ function monitorConfigChanges() {
 
 	updateConfig(updatedKeys);
 }
-
-module.exports = {
-	monitorConfigChanges,
-};

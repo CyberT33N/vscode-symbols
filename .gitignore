@@ -1,5 +1,7 @@
 out
 dist
+.pnpm
+artifacts/
 node_modules
 .vscode-test/
 *.vsix

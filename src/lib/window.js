@@ -1,7 +1,7 @@
-const vscode = require("vscode");
-const { MESSAGES } = require("./constants");
+import * as vscode from "vscode";
+import { MESSAGES } from "./constants.js";
 
-async function confirmReload() {
+export async function confirmReload() {
 	const response = await vscode.window.showInformationMessage(MESSAGES.needsReloadToSync, MESSAGES.reloadButton);
 
 	if (response !== MESSAGES.reloadButton) {
@@ -11,7 +11,3 @@ async function confirmReload() {
 	vscode.commands.executeCommand("workbench.action.reloadWindow");
 	return true;
 }
-
-module.exports = {
-	confirmReload,
-};
