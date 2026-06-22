@@ -2,11 +2,11 @@
 	"name": "symbols-secured",
 	"displayName": "Symbols [Secured]",
 	"description": "A simple file icon theme for VS Code",
-	"version": "0.0.26",
+	"version": "0.0.27",
 	"publisher": "CyberT33N",
 	"icon": "symbols.png",
 	"preview": true,
-	"packageManager": "pnpm@11.6.0",
+	"packageManager": "pnpm@11.7.0",
 	"main": "./dist/extension.cjs",
 	"engines": {
 		"vscode": "^1.88.0"
@@ -14,7 +14,7 @@
 	"devEngines": {
 		"packageManager": {
 			"name": "pnpm",
-			"version": "11.6.0",
+			"version": "11.7.0",
 			"onFail": "error"
 		}
 	},

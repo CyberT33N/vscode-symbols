@@ -242,6 +242,7 @@ You can choose which icons to use from the [Library](https://www.figma.com/file/
 | markdoc               | ![markdoc](files/markdoc.png)                               |
 | markdown              | ![markdown](files/markdown.png)                             |
 | maven                 | ![maven](files/maven.png)                                   |
+| mdc                   | ![mdc](files/mdc.png)                                       |
 | mdx                   | ![mdx](files/mdx.png)                                       |
 | minecraft             | ![minecraft](files/minecraft.png)                           |
 | mongo                 | ![mongo](files/mongo.png)                                   |

@@ -1,0 +1,13 @@
+---
+description: MDC rule example
+globs:
+  - "src/**/*.ts"
+  - "src/**/*.tsx"
+alwaysApply: false
+---
+
+# Rule
+
+- Keep icon associations explicit.
+- Prefer small, focused SVG assets.
+- Regenerate previews after theme changes.
